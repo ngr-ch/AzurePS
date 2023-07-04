@@ -1,0 +1,17 @@
+-----Install Az Modele from Local Powershell----------by Nagaraj---------
+Install-Module -Name Az -Repository PSGallery -Force
+Update-Module -Name Az -Force
+Connect-AzAccount -TenantId 4888e0d4-74a3-4b37-90c5-cb1214a39c88
+
+Account             SubscriptionName TenantId                             Environment
+-------             ---------------- --------                             -----------
+raja12bab@gmail.com NGR              4888e0d4-74a3-4b37-90c5-cb1214a39c88 AzureCloud
+-Craete ResourceGroup-
+New-AzResourceGroup -Name RG05 -Location "Central India" -Force
+-Create Webapp in RG05-
+New-AzResource -Name NGR-DEV -Location "Central India" -ResourceType microsoft.web/sites -Properties @{test="test"} -ResourceGroupName RG05 -Force
+New-AzResource -Name NGR-AT -Location "Central India" -ResourceType microsoft.web/sites -Properties @{test="test"} -ResourceGroupName RG05 -Force
+New-AzResource -Name NGR-PROD -Location "Central India" -ResourceType microsoft.web/sites -Properties @{test="test"} -ResourceGroupName RG05 -Force
+
+-Delete ResourceGroup-
+Remove-AzResourceGroup -Name RG05 -Force
