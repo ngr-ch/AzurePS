@@ -2,6 +2,8 @@
 
 -To login from portal powershell console--
 az login
+
+-----------------Create Resource Group ------------------------------
 az group create -n RG01 -l eastus --tag rg1
 az group create -n RG02 -l eastus --tag rg2
 az group create -n RG03 -l eastus --tag rg3
@@ -18,7 +20,7 @@ $functionApp="ngr-function123"
 $skuStorage="Standard_LRS"
 $functionsVersion="4"
 
-
+-----------------Create Function App ------------------------------
 # Create an Azure storage account in the resource group.
 echo "Creating $storage"
 az storage account create --name $storage --location "$location" --resource-group $resourceGroup --sku $skuStorage
@@ -26,13 +28,13 @@ az storage account create --name $storage --location "$location" --resource-grou
 # Create a serverless function app in the resource group.
 echo "Creating $functionApp"
 az functionapp create --name $functionApp --storage-account $storage --consumption-plan-location "$location" --resource-group $resourceGroup --functions-version $functionsVersion
+# Function app and storage account names must be unique.
 
-
+-----------------Create Web App ------------------------------
 az group create -n RG02 -l eastus
 az appservice plan create -n ngr-app123 -g RG02 -l eastus --sku F1
 az webapp create -n ngr-app123 -g RG02 --plan ngr-app123
------------------Create Function App ------------------------------
-# Function app and storage account names must be unique.
 
 DELETE: RGM:
 az group delete -n RG01
+az group delete -n RG02
