@@ -1,0 +1,26 @@
+Home / Microsoft Azure / architect / Top Azure CLI Commands For Managing Azure Resources
+Top Azure CLI Commands For Managing Azure Resources
+
+Common Azure CLI Commands List
+1) Manage resource groups and template deployments:
+
+COMMANDS
+az group create	Create a new resource group.
+az group delete	Delete a resource group.
+az group deployment	Manage Azure Resource Manager deployments.
+az group deployment cancel	Cancels a currently running template deployment.
+az group deployment create	Start a deployment.
+az group deployment delete	Deletes a deployment from the deployment history.
+az group deployment export	Export the template used for deployment.
+az group deployment list	Get all the deployments for a resource group.
+az group deployment operation	Manage deployment operations.
+az group deployment operation list	Gets all deployments operations for deployment.
+az group deployment operation show	Get a deployment’s operation.
+az group deployment show	Gets a deployment.
+az group exists	Check if a resource group exists.
+az group list	List resource groups.
+az group lock	Manage Azure resource group locks.
+az group lock create	Create a resource group lock.
+az group lock delete	Delete a resource group lock.
+az group show	Gets a resource group.
+az group update	Update a resource group.
