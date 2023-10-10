@@ -1,0 +1,17 @@
+
+#Get All Prpject List
+[string] $organisation = "raja12bab"
+[string] $PAT = "cdkpa3tgklfblxyomi3wx7zmqpawdm5k4sflgmlyzwkoxcvzhkma"
+
+
+
+
+$AzureDevOpsAuthenicationHeader = @{Authorization = 'Basic ' + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$($PAT)")) }
+$UriOrganization = "https://dev.azure.com/$($organisation)/"
+$uriProject = $UriOrganization + "_apis/projects?/"
+Write-Host "Connecting Organisation url: $uriProject" -BackgroundColor DarkBlue
+$ProjectsResult = Invoke-RestMethod -Uri $uriProject -Method get -Headers $AzureDevOpsAuthenicationHeader
+Foreach ($project in $ProjectsResult.value)
+{
+    Write-Host $project.name
+}
