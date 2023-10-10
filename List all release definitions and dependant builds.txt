@@ -1,0 +1,23 @@
+
+#Azure DevOps PowerShell Scripts - List all release definitions and dependant builds
+[string] $organisation = "raja12bab"
+[string] $personalAccessToken = "jdt2dksj2hhujdoxgof5lmvckqlvqesjtvn5n3hiby3pforw4vrq"
+
+
+$base64AuthInfo= [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes(":$($personalAccessToken)"))
+$headers = @{Authorization=("Basic {0}" -f $base64AuthInfo)}
+
+$result = Invoke-RestMethod -Uri "https://dev.azure.com/$organisation/_apis/projects?api-version=6.0" -Method Get -Headers $headers
+
+$projectNames = $result.value.name
+
+$projectNames | ForEach-Object {
+    $project = $_
+
+    $result = Invoke-RestMethod -Uri "https://vsrm.dev.azure.com/$organisation/$project/_apis/release/definitions?api-version=6.1-preview.4&`$expand=artifacts" -Method Get -Headers $headers
+
+    $result.value | Select-Object name, 
+        @{ Name = "Url"; Expression = { $_._links.web.href }},
+        @{ Name="Artifacts"; Expression= { $_.artifacts.alias }}, 
+        @{ Name="artifactSourceDefinitionUrl"; Expression= { $_.artifacts.definitionReference.artifactSourceDefinitionUrl.id }}
+}
