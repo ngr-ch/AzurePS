@@ -1,6 +1,6 @@
 #Get All Release Definations
 [string] $organisation = "raja12bab"
-[string] $personalAccessToken = "jdt2dksj2hhujdoxgof5lmvckqlvqesjtvn5n3hiby3pforw4vrq"
+[string] $personalAccessToken = "PAT"
 
 
 $base64AuthInfo= [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes(":$($personalAccessToken)"))
