@@ -1,0 +1,24 @@
+# List All Release in Project
+$personalToken = "k2dxrppwbcb4x5ktu2ldcfrrcepgzy7s2xsjjdfvvm33mjwhodqq"
+$org = "raja12bab"
+$Project = "Cosmodbterraform"
+
+Write-Host "`nInitialize authentication context" -ForegroundColor Yellow
+$token = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes(":$($personalToken)"))
+$header = @{authorization = "Basic $token"}
+
+
+Write-Host "Checking for the Project : $Project" -BackgroundColor DarkBlue
+
+
+
+$relDefUrl = "https://vsrm.dev.azure.com/$org/$Project/_apis/release/definitions?api-version=5.1"
+
+$result = Invoke-RestMethod $relDefUrl -Method Get -ContentType "application/json" -Headers $header
+$relDefs = $result.value
+if($relDefs.count -gt 0){
+        Write-Host "$project $($relDefs.count) release def founds" -ForegroundColor Cyan
+        $relDefs | ForEach-Object {
+            Write-host "`t$($_.name)" -ForegroundColor Green
+        }
+    }
