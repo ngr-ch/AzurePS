@@ -1,6 +1,6 @@
 # Define your Azure DevOps organization and project details
 $organization = "raja12bab"
-$project = "All Projects"
+$project = "IaC-CICD"
 $personalAccessToken = ""
 
 # Base URL for Azure DevOps REST API
@@ -42,6 +42,3 @@ foreach ($definition in $releaseDefinitionsResponse.value) {
 
     Write-Host
 }
-
-
-
