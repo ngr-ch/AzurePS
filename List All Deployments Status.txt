@@ -1,0 +1,47 @@
+# Define your Azure DevOps organization and project details
+$organization = "raja12bab"
+$project = "All Projects"
+$personalAccessToken = ""
+
+# Base URL for Azure DevOps REST API
+$baseUrl = "https://vsrm.dev.azure.com/$organization/$project"
+
+# Create a personal access token header for authentication
+$headers = @{
+    Authorization = "Basic " + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$($personalAccessToken)"))
+}
+
+Write-Host " Connecting Organisation $organization " -BackgroundColor DarkBlue
+Write-Host "`nChecking Project $project "`n -ForegroundColor Cyan 
+
+# Get all release definitions
+$releaseDefinitionsUrl = "$baseUrl/_apis/release/definitions?api-version=6.0"
+$releaseDefinitionsResponse = Invoke-RestMethod -Uri $releaseDefinitionsUrl -Method Get -ContentType "application/json" -Headers $header
+
+# Loop through each release definition
+foreach ($definition in $releaseDefinitionsResponse.value) {
+    $releaseDefinitionId = [int]$definition.id  # Explicitly cast to integer
+    $releaseDefinitionName = $definition.name
+
+    # Get release deployments for the release definition
+    $releaseDeploymentsUrl = "$baseUrl/_apis/release/deployments?definitionId=$releaseDefinitionId&api-version=6.0"
+    $deploymentsResponse = Invoke-RestMethod -Uri $releaseDeploymentsUrl -Headers $headers -Method Get
+
+    
+   if ($deploymentsResponse.count -gt 0) {
+        Write-Host "Release Definition: $releaseDefinitionName"
+        foreach ($deployment in $deploymentsResponse.value) {
+            $environmentName = $deployment.releaseEnvironment.name
+            $deploymentStatus = $deployment.deploymentStatus
+
+            Write-Host "  Environment: $environmentName, Deployment Status: $deploymentStatus"
+        }
+    } else {
+        Write-Host "Release Definition: $releaseDefinitionName has not been deployed to any environment."
+    }
+
+    Write-Host
+}
+
+
+
